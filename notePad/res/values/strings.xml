@@ -1,0 +1,29 @@
+<resources>
+
+    <string name="app_name">notePad</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_main">notePad</string>
+    <string name="bienvenida">Bienvenido a la Aplicación</string><string name="title_home">Se encuentra registrado en el Sistema?</string><string name="yes">SI</string><string name="no">NO</string><string name="login">Ingresar Email y Password</string>
+    <string name="aceptar">Aceptar</string>
+    
+    
+    
+    
+    
+    <string name="title_registro">Registro</string>
+    <string name="nombre_usuario">email</string>
+    <string name="password">ingresar password</string>
+    <string name="confirmar_password">confirmar password</string>
+    <string name="nombre_aplicacion">NotePad</string>
+    <string name="crear_nota">Crear Nota</string>
+    <string name="buscar_nota">Buscar Nota</string>
+    <string name="cerrar_sesion">Cerrar Sesión</string>
+    <string name="home">Home</string>
+    <string name="titulo">Título</string><string name="adjunto">Adjunto</string>
+    
+    <string name="ver">Ver</string>
+    <string name="modificar">Modificar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="consultar_nota">Consultar Nota</string>
+
+</resources>
