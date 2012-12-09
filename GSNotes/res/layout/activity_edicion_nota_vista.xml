@@ -1,0 +1,127 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollViewEdicionNota"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="92dp"
+                    android:layout_height="wrap_content"
+                    android:text="Titulo:"
+                    android:textSize="20dp" />
+
+                <EditText
+                    android:id="@+id/editTextTituloNota"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10" >
+
+                    <requestFocus />
+                </EditText>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:onClick="modificarEtiquetas" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="92dp"
+                    android:layout_height="wrap_content"
+                    android:text="Tags: "
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/textViewTags"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:text="Easy, come, easy, go, to, me, goes, the, same, you, plan, with, a, heart, i, have, been, a, fool, now, baby, you, better, get, to, act, together, real, soon" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Adjuntos: "
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/textViewAdjuntos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="5dp"
+                    android:text="archivo1.pdf, archivo2.pdf, archivo3.java, archivo4.docx" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/editTextTextoNota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/Titulo"
+                android:ems="10"
+                android:inputType="textMultiLine" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/buttonCancelar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/Titulo"
+                    android:layout_weight="1"
+                    android:text="Cancelar"
+                    android:onClick="cancelar" />
+
+                <Button
+                    android:id="@+id/buttonGuardar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/Titulo"
+                    android:layout_weight="1"
+                    android:text="Guardar"
+                    android:onClick="guardarNota" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/textViewIdNota"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible" />
+
+</LinearLayout>

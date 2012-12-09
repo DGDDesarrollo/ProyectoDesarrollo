@@ -1,127 +1,146 @@
-<?PHP
-ob_start(); 
+<?php
 
-$_SESSION['usuario'] = null;
 
-function sql($query){
-    //echo $query;
-    $db_conn = ocilogon("android", "android", "//127.0.0.1/orcl"); //EN LOS DOS PRIMEROS CAMPOS PONES EL USUARIO Y LA CONTRASEÑA RESPECTIVAMENTE
-	$parsed = ociparse($db_conn, $query);
-    ociexecute($parsed);
-	ocilogoff($db_conn);
-	return $parsed;
-  }
-  
-function buscar_usuario($email, $pass){
-	$ins = "SELECT * FROM USUARIO WHERE email='".$email."' and password='".$pass."'";
-	//echo $ins;
-	$query = sql($ins);
-	$data=array();
-	while ($row=oci_fetch_assoc($query))
-	{
-		$data=array_merge($data,array($row));
-	}
-	if (count($data) == 0)
-		return false;
-	return true;
- }
-  
-function registrar_usuario($nombre, $email, $pass){
-	$existe = buscar_usuario($email, $pass);
-	if ($existe == false){
-		$ins = "INSERT INTO USUARIO(ID, NOMBRE, PASSWORD, EMAIL) VALUES (USUARIO_SEQ.NEXTVAL,'".$nombre."','".$pass."','".$email."')";
-		$query = sql($ins);
-		$_SESSION['usuario'] = $email;
-	}
-	$data=array("registro" => !($existe));
-	echo "[".json_encode($data)."]";
+DEFINE('CLIENT_ID','730763475833.apps.googleusercontent.com');
+DEFINE('CLIENT_SECRET','mYdMNDN9d0vEVRdbxRnKdhJF');
+DEFINE('REDIRECT_URI','http://localhost/Dropbox/GSNotes/index.php/googleDrive/authentication_2');
+DEFINE('APP_NAME','GSNotes');
+DEFINE('API_KEY','AIzaSyCX8NCq7B2KoEc39xChJopceAdwbhVuKQc');
+
+require_once dirname(__FILE__).'/google_api/Google_Client.php';
+require_once dirname(__FILE__).'/google_api/contrib/Google_DriveService.php';
+
+
+
+$client = new Google_Client();
+$client->setUseObjects(true);
+$client->setApplicationName(APP_NAME);
+$client->setClientId(CLIENT_ID);
+$client->setClientSecret(CLIENT_SECRET);
+$client->setRedirectUri(REDIRECT_URI);
+$client->setDeveloperKey(API_KEY);
+
+$drive = new Google_DriveService($client);
+
+new Google_AuthException('');
+
+/**
+ * The directory in which your application specific resources are located.
+ * The application directory must contain the bootstrap.php file.
+ *
+ * @link http://kohanaframework.org/guide/about.install#application
+ */
+$application = 'application';
+
+/**
+ * The directory in which your modules are located.
+ *
+ * @link http://kohanaframework.org/guide/about.install#modules
+ */
+$modules = 'modules';
+
+/**
+ * The directory in which the Kohana resources are located. The system
+ * directory must contain the classes/kohana.php file.
+ *
+ * @link http://kohanaframework.org/guide/about.install#system
+ */
+$system = 'system';
+
+/**
+ * The default extension of resource files. If you change this, all resources
+ * must be renamed to use the new extension.
+ *
+ * @link http://kohanaframework.org/guide/about.install#ext
+ */
+define('EXT', '.php');
+
+/**
+ * Set the PHP error reporting level. If you set this in php.ini, you remove this.
+ * @link http://www.php.net/manual/errorfunc.configuration#ini.error-reporting
+ *
+ * When developing your application, it is highly recommended to enable notices
+ * and strict warnings. Enable them by using: E_ALL | E_STRICT
+ *
+ * In a production environment, it is safe to ignore notices and strict warnings.
+ * Disable them by using: E_ALL ^ E_NOTICE
+ *
+ * When using a legacy application with PHP >= 5.3, it is recommended to disable
+ * deprecated notices. Disable with: E_ALL & ~E_DEPRECATED
+ */
+error_reporting(E_ALL | E_STRICT);
+
+/**
+ * End of standard configuration! Changing any of the code below should only be
+ * attempted by those with a working knowledge of Kohana internals.
+ *
+ * @link http://kohanaframework.org/guide/using.configuration
+ */
+
+// Set the full path to the docroot
+define('DOCROOT', realpath(dirname(__FILE__)).DIRECTORY_SEPARATOR);
+
+// Make the application relative to the docroot, for symlink'd index.php
+if ( ! is_dir($application) AND is_dir(DOCROOT.$application))
+	$application = DOCROOT.$application;
+
+// Make the modules relative to the docroot, for symlink'd index.php
+if ( ! is_dir($modules) AND is_dir(DOCROOT.$modules))
+	$modules = DOCROOT.$modules;
+
+// Make the system relative to the docroot, for symlink'd index.php
+if ( ! is_dir($system) AND is_dir(DOCROOT.$system))
+	$system = DOCROOT.$system;
+
+// Define the absolute paths for configured directories
+define('APPPATH', realpath($application).DIRECTORY_SEPARATOR);
+define('MODPATH', realpath($modules).DIRECTORY_SEPARATOR);
+define('SYSPATH', realpath($system).DIRECTORY_SEPARATOR);
+
+// Clean up the configuration vars
+unset($application, $modules, $system);
+
+if (file_exists('install'.EXT))
+{
+	// Load the installation check
+	return include 'install'.EXT;
 }
 
-function iniciar_sesion ($email, $pass) {
-	if (buscar_usuario($email, $pass)){
-		$_SESSION['usuario'] = $email;
-		ver_notas($email);
-	}
-	else
-		echo "[".json_encode (array("ERROR" => "El email y el password no coinciden."))."]";
+/**
+ * Define the start time of the application, used for profiling.
+ */
+if ( ! defined('KOHANA_START_TIME'))
+{
+	define('KOHANA_START_TIME', microtime(TRUE));
 }
 
-function ver_notas ($email) {
-	$query = sql("SELECT NOTA.ID,TITULO FROM NOTA, USUARIO WHERE NOTA.FK_USUARIO = USUARIO.ID AND EMAIL = '".$email."' ORDER BY FECHA_CREACION");
-	$data=array();
-	while ($row=oci_fetch_assoc($query)) {
-		$data=array_merge($data,array($row));
-	}
-	echo json_encode($data);
+/**
+ * Define the memory usage at the start of the application, used for profiling.
+ */
+if ( ! defined('KOHANA_START_MEMORY'))
+{
+	define('KOHANA_START_MEMORY', memory_get_usage());
 }
 
-function crear_nota ($email, $titulo_url, $fecha, $texto_url) {
-    $titulo = urldecode($titulo_url); 
-    $texto = urldecode($texto_url); 
-	$query = sql("INSERT INTO NOTA VALUES (NOTA_SEQ.NEXTVAL, '".$titulo."','".$texto."',TO_DATE('".$fecha."', 'DD/MM/YYYY'),
-					(SELECT ID FROM USUARIO WHERE EMAIL = '".$email."'))");
-	$data=array("creo" => TRUE);
-	$nueva = array($data);
-	echo json_encode($nueva);
+// Bootstrap the application
+require APPPATH.'bootstrap'.EXT;
+
+if (PHP_SAPI == 'cli') // Try and load minion
+{
+	class_exists('Minion_Task') OR die('Please enable the Minion module for CLI support.');
+	set_exception_handler(array('Minion_Exception', 'handler'));
+
+	Minion_Task::factory(Minion_CLI::options())->execute();
+}
+else
+{
+	/**
+	 * Execute the main request. A source of the URI can be passed, eg: $_SERVER['PATH_INFO'].
+	 * If no source is specified, the URI will be automatically detected.
+	 */
+	echo Request::factory(TRUE, array(), FALSE)
+		->execute()
+		->send_headers(TRUE)
+		->body();
 }
 
-function abrir_nota ($id) {
-	$query = sql("SELECT * FROM NOTA WHERE ID = ".$id);
-	$data=array();
-	while ($row=oci_fetch_assoc($query)) {
-		$data=array_merge($data,array($row));
-	}
-	echo json_encode($data);	
-}
-
-function modificar_nota ($id, $titulo_url, $texto_url) {
-    $titulo = urldecode($titulo_url); 
-    $texto = urldecode($texto_url); 
-	$query = sql("UPDATE NOTA SET TITULO = '".$titulo."', TEXTO = '".$texto."' WHERE ID = ".$id);
-}
-
-function eliminar_nota ($id) {
-	try {
-		$query = sql("DELETE FROM NOTA WHERE ID = ".$id);
-		
-		if (oci_num_rows($query) > 0)
-			$data=array("respuesta" => TRUE);
-		else
-			$data=array("respuesta" => TRUE);
-	}
-	catch (Exception $e){
-		$data=array("respuesta" => TRUE);
-	}
-	echo json_encode ($data);
-}
-
-if(isset($_GET['funcion'])){
-	$compara = $_GET['funcion'];
-	switch($compara){
-		case "registrar_usuario":
-			registrar_usuario($_GET["nombre"], $_GET["email"], $_GET["pass"]);
-			break;
-		case "iniciar_sesion":
-			iniciar_sesion($_GET["email"], $_GET["pass"]);
-			break;
-		case "crear_nota":
-			crear_nota($_GET["email"], $_GET["titulo"], $_GET["fecha"], $_GET["texto"]);
-			break;
-		case "ver_notas":
-			ver_notas($_GET["email"]);
-			break;
-		case "abrir_nota":
-			abrir_nota($_GET["id"]);
-			break;
-		case "modificar_nota":
-			modificar_nota($_GET["id"], $_GET["titulo"], $_GET["texto"]);
-			break;
-		case "eliminar_nota":
-			eliminar_nota($_GET["id"]);
-			break;
-	}
-}
-
-$var = ob_get_clean();
-file_put_contents('out.txt',$var,FILE_APPEND);
-echo $var;

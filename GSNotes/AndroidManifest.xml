@@ -1,0 +1,59 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.gdnotes"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="vistas.LoginVista"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="vistas.RegistrarseVista" >
+        </activity>
+        <activity android:name="vistas.ArchivosVista" >
+        </activity>
+        <activity android:name="vistas.BienvenidoVista" >
+        </activity>
+        <activity android:name="vistas.EtiquetasVista" >
+        </activity>
+        <activity android:name="vistas.EdicionNotaVista" >
+        </activity>
+        <activity android:name="vistas.NuevaLibretaVista" >
+        </activity>
+        <activity android:name="vistas.NuevaNotaVista" >
+        </activity>
+        <activity
+            android:name=".NuevaNota"
+            android:label="@string/title_activity_nueva_nota" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="vistas.EdicionLibretaVista"
+            android:label="@string/title_activity_edicion_libreta_vista" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

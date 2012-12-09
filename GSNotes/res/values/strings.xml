@@ -1,0 +1,18 @@
+<resources>
+
+    <string name="app_name">GDNotes</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_login_view">LoginView</string>
+    <string name="title_activity_login_vista">LoginVista</string>
+    <string name="title_activity_registrarse_vista">RegistrarseVista</string>
+    <string name="title_activity_bienvenido_vista">BienvenidoVista</string>
+    <string name="title_activity_nueva_libreta_vista">NuevaLibretaVista</string>
+    <string name="title_activity_nueva_nota_vista">NuevaNotaVista</string>
+    <string name="title_activity_nota_vista">NotaVista</string>
+    <string name="title_activity_etiquetas_vista">EtiquetasVista</string>
+    <string name="title_activity_archivos_vista">ArchivosVista</string>
+    <string name="title_activity_nueva_nota">NuevaNota</string>
+    <string name="title_activity_edicion_libreta_vista">EdicionLibretaVista</string>
+
+</resources>
